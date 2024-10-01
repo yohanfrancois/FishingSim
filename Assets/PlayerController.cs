@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         if (currentZRotation > 180f)
             currentZRotation -= 360f;
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && !isChargingThrow)
         {
             // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
             float newZRotation = currentZRotation - arrowRotateSpeed * Time.deltaTime;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && !isChargingThrow)
         {
             // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
             float newZRotation = currentZRotation + arrowRotateSpeed * Time.deltaTime;
@@ -54,12 +54,7 @@ public class PlayerController : MonoBehaviour
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ThrowFishBait();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow)
         {
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
@@ -67,7 +62,7 @@ public class PlayerController : MonoBehaviour
             throwCharge = 0f;
             isChargingUp = true;
         }
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
         {
             isChargingThrow = false;
             ThrowFishBait();
@@ -78,6 +73,12 @@ public class PlayerController : MonoBehaviour
         {
             if (isChargingUp)
             {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    isChargingThrow = false;
+                    throwChargeBarGO.SetActive(false);
+                    return;
+                }
                 throwCharge += throwChargeSpeed * Time.deltaTime;
                 if (throwCharge > 100f)
                 {
