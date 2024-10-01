@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,5 +38,18 @@ public class PlayerController : MonoBehaviour
 
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
+    }
+
+    public void OnMoveArrow(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>().normalized;
+        float angle = Vector2.SignedAngle(input, Vector2.up);
+
+        if (angle < aimAngleMin)
+            angle = aimAngleMin;
+        if (angle > aimAngleMax)
+            angle = aimAngleMax;
+        
+        arrowDir.rotation = Quaternion.Euler(0f, 180f, angle);
     }
 }
