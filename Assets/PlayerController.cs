@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -104,5 +105,18 @@ public class PlayerController : MonoBehaviour
         fishBait.transform.localPosition = Vector3.zero;
         fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         fishBait.GetComponent<Rigidbody2D>().AddForce(arrowDir.up * (throwForce * (throwCharge / 100f)) );
+    }
+
+    public void OnMoveArrow(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>().normalized;
+        float angle = Vector2.SignedAngle(input, Vector2.up);
+
+        if (angle < aimAngleMin)
+            angle = aimAngleMin;
+        if (angle > aimAngleMax)
+            angle = aimAngleMax;
+        
+        arrowDir.rotation = Quaternion.Euler(0f, 180f, angle);
     }
 }
