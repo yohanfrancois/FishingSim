@@ -1332,7 +1332,7 @@ MonoBehaviour:
   throwChargeSpeed: 150
   throwChargeBarGO: {fileID: 141722646}
   throwChargeBar: {fileID: 88492754}
-  baitDetectionRadius: 1
+  baitDetectionRadius: 0.5
 --- !u!114 &1667746558
 MonoBehaviour:
   m_ObjectHideFlags: 0
