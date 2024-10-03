@@ -102,21 +102,21 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
         {
-            fishBait.transform.localPosition = Vector3.zero;
-            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            isLaunched = false;
+            FishController[] allFish = FindObjectsOfType<FishController>();
 
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(fishBait.transform.position, baitDetectionRadius);
-            foreach (var hitCollider in hitColliders)
+            foreach (FishController fish in allFish)
             {
-                FishController fish = hitCollider.GetComponent<FishController>();
-                if (fish != null)
+                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
+                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                if (distanceToBait <= baitDetectionRadius)
                 {
-                    // Détruire le poisson
                     Destroy(fish.gameObject);
                 }
             }
 
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            isLaunched = false;
         }
 
     }
