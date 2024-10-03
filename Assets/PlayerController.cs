@@ -15,9 +15,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float throwChargeSpeed;
     [SerializeField] private GameObject throwChargeBarGO;
     [SerializeField] private Image throwChargeBar;
+    [SerializeField] private float baitDetectionRadius = 1.0f;
 
     private bool isChargingThrow = false;
     private bool isChargingUp = true;
+    private bool isLaunched = false;
     private float throwCharge = 0f;
 
     private void Start()
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
         if (currentZRotation > 180f)
             currentZRotation -= 360f;
 
-        if (Input.GetKey(KeyCode.A) && !isChargingThrow)
+        if (Input.GetKey(KeyCode.A) && !isChargingThrow && !isLaunched)
         {
             // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
             float newZRotation = currentZRotation - arrowRotateSpeed * Time.deltaTime;
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
-        if (Input.GetKey(KeyCode.D) && !isChargingThrow)
+        if (Input.GetKey(KeyCode.D) && !isChargingThrow && !isLaunched)
         {
             // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
             float newZRotation = currentZRotation + arrowRotateSpeed * Time.deltaTime;
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow)
+        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow && !isLaunched)
         {
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
@@ -98,6 +100,24 @@ public class PlayerController : MonoBehaviour
 
             throwChargeBar.fillAmount = throwCharge / 100f;
         }
+        if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
+        {
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            isLaunched = false;
+
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(fishBait.transform.position, baitDetectionRadius);
+            foreach (var hitCollider in hitColliders)
+            {
+                FishController fish = hitCollider.GetComponent<FishController>();
+                if (fish != null)
+                {
+                    // Détruire le poisson
+                    Destroy(fish.gameObject);
+                }
+            }
+
+        }
 
     }
 
@@ -106,6 +126,8 @@ public class PlayerController : MonoBehaviour
         fishBait.transform.localPosition = Vector3.zero;
         fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         fishBait.GetComponent<Rigidbody2D>().AddForce(arrowDir.up * (throwForce * (throwCharge / 100f)) );
+        isLaunched = true;
+
     }
 
     public void OnMoveArrow(InputAction.CallbackContext context)
