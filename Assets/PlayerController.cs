@@ -71,14 +71,14 @@ public class PlayerController : MonoBehaviour
         }
         if (isChargingThrow)
         {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                isChargingThrow = false;
+                throwChargeBarGO.SetActive(false);
+                return;
+            }
             if (isChargingUp)
             {
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    isChargingThrow = false;
-                    throwChargeBarGO.SetActive(false);
-                    return;
-                }
                 throwCharge += throwChargeSpeed * Time.deltaTime;
                 if (throwCharge > 100f)
                 {
@@ -110,14 +110,46 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveArrow(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>().normalized;
-        float angle = Vector2.SignedAngle(input, Vector2.up);
+        if (!isChargingThrow)
+        {
+            Vector2 input = context.ReadValue<Vector2>().normalized;
+            float angle = Vector2.SignedAngle(input, Vector2.up);
 
-        if (angle < aimAngleMin)
-            angle = aimAngleMin;
-        if (angle > aimAngleMax)
-            angle = aimAngleMax;
-        
-        arrowDir.rotation = Quaternion.Euler(0f, 180f, angle);
+            if (angle < aimAngleMin)
+                angle = aimAngleMin;
+            if (angle > aimAngleMax)
+                angle = aimAngleMax;
+
+            arrowDir.rotation = Quaternion.Euler(0f, 180f, angle);
+        }
+    }
+
+    public void OnThrowFishBait(InputAction.CallbackContext context)
+    {
+        if (context.started && !isChargingThrow)
+        {
+            throwChargeBarGO.SetActive(true);
+            throwChargeBar.fillAmount = 0f;
+            isChargingThrow = true;
+            throwCharge = 0f;
+            isChargingUp = true;
+        }
+        if (context.canceled && isChargingThrow)
+        {
+            isChargingThrow = false;
+            ThrowFishBait();
+            throwChargeBarGO.SetActive(false);
+            throwCharge = 0f;
+        }
+    }
+
+    public void OnCancelThrow(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isChargingThrow = false;
+            throwChargeBarGO.SetActive(false);
+            Debug.Log("Throw canceled");
+        }
     }
 }
