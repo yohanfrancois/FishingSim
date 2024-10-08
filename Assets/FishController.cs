@@ -13,7 +13,7 @@ public class FishController : MonoBehaviour
 
     private void Start()
     {
-        direction = Vector3.right;
+        direction = (Random.Range(0, 2) == 0) ? Vector3.left : Vector3.right;
         speed = normalSpeed;
     }
 
@@ -54,5 +54,10 @@ public class FishController : MonoBehaviour
         }
 
         transform.position += direction * speed * Time.deltaTime;
+    }
+
+    public void setFishBait(GameObject fishBaitOther)
+    {
+        fishBait = fishBaitOther;
     }
 }

@@ -632,7 +632,7 @@ GameObject:
   m_Layer: 6
   m_Name: FishBait
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1459,6 +1459,54 @@ Transform:
   - {fileID: 2131479661}
   m_Father: {fileID: 1667746555}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: -90}
+--- !u!1 &1739167347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1739167349}
+  - component: {fileID: 1739167348}
+  m_Layer: 0
+  m_Name: fishSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1739167348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739167347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25263d256e01af843b0366774ed4677a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishPrefab: {fileID: 6783394660526882458, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
+  nbFishToGenerate: 5
+  minScale: 0.5
+  maxScale: 1.5
+--- !u!4 &1739167349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739167347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3693469, y: -0.2714263, z: -0.061385337}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756204390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,7 +1871,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 726755254274903188, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
+    - target: {fileID: 3477744076074399114, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
       propertyPath: fishBait
       value: 
       objectReference: {fileID: 638751325}
@@ -1850,3 +1898,4 @@ SceneRoots:
   - {fileID: 1370488786}
   - {fileID: 1917961005}
   - {fileID: 1633637716}
+  - {fileID: 1739167349}

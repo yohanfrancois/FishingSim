@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 633591881218253816}
   - component: {fileID: 4746523112215127952}
-  - component: {fileID: 726755254274903188}
   - component: {fileID: 1773919952423215464}
+  - component: {fileID: 3477744076074399114}
   m_Layer: 6
   m_Name: FishExemple
   m_TagString: Untagged
@@ -86,21 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &726755254274903188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6783394660526882458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e1a513002574a8428afa832dcfd2971, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalSpeed: 2
-  targetedSpeed: 3
-  fishBait: {fileID: 0}
 --- !u!61 &1773919952423215464
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,3 +131,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3477744076074399114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6783394660526882458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1a513002574a8428afa832dcfd2971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalSpeed: 2
+  targetedSpeed: 3
+  fishBait: {fileID: 0}
