@@ -1406,6 +1406,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 078df2c2-47fb-41e2-9e09-dbab9b977f56
     m_ActionName: controls/cancelThrow[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1667746557}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCallFishBait
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b23b40b4-7efe-41ae-b282-5c97facdcae6
+    m_ActionName: controls/callFishBait[/XInputControllerWindows/leftTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: controls

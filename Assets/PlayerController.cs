@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveArrow(InputAction.CallbackContext context)
     {
-        if (!isChargingThrow)
+        if (!isChargingThrow && !isLaunched)
         {
             Vector2 input = context.ReadValue<Vector2>().normalized;
             float angle = Vector2.SignedAngle(input, Vector2.up);
@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrowFishBait(InputAction.CallbackContext context)
     {
-        if (context.started && !isChargingThrow)
+        if (context.started && !isChargingThrow && !isLaunched)
         {
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
             throwCharge = 0f;
             isChargingUp = true;
         }
-        if (context.canceled && isChargingThrow)
+        if (context.canceled && isChargingThrow && !isLaunched)
         {
             isChargingThrow = false;
             ThrowFishBait();
@@ -172,6 +172,28 @@ public class PlayerController : MonoBehaviour
             isChargingThrow = false;
             throwChargeBarGO.SetActive(false);
             Debug.Log("Throw canceled");
+        }
+    }
+
+    public void OnCallFishBait(InputAction.CallbackContext context)
+    {
+        if (context.started && isLaunched)
+        {
+            FishController[] allFish = FindObjectsOfType<FishController>();
+
+            foreach (FishController fish in allFish)
+            {
+                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
+                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                if (distanceToBait <= baitDetectionRadius)
+                {
+                    Destroy(fish.gameObject);
+                }
+            }
+
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            isLaunched = false;
         }
     }
 }
