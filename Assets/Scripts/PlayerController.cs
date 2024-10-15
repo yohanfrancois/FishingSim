@@ -196,4 +196,9 @@ public class PlayerController : MonoBehaviour
             isLaunched = false;
         }
     }
+
+    private void WindingFishingRod()
+    {
+
+    }
 }
