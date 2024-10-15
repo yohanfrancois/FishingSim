@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "windingFishingRod",
+                    "type": "Button",
+                    "id": "be733491-23e4-4b08-b949-a426e1b054b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -67,6 +76,17 @@
                 },
                 {
                     "name": "",
+                    "id": "07a37e2b-0290-4af7-8394-8312e5ef4c5c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "throwFishBait",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3962b204-aaab-4f6a-8dac-3126bc87ce4c",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -84,6 +104,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "callFishBait",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8be7cfb0-4b60-464d-9624-f11c4f50048a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "callFishBait",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30749df5-ecca-4aa0-b175-176863e2a29a",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "windingFishingRod",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64cb0f0a-365c-4ecc-a4e8-f01de122dc5c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "windingFishingRod",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

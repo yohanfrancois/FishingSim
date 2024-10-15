@@ -16,11 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject throwChargeBarGO;
     [SerializeField] private Image throwChargeBar;
     [SerializeField] private float baitDetectionRadius = 1.0f;
+    [SerializeField] private float windingFishSpeed;
+    [SerializeField] private float windingResistanceTime;
 
     private bool isChargingThrow = false;
     private bool isChargingUp = true;
     private bool isLaunched = false;
+    private bool isWindingFishingRod = false;
     private float throwCharge = 0f;
+    private float windingResistanceTimer;
 
     private void Start()
     {
@@ -55,22 +59,6 @@ public class PlayerController : MonoBehaviour
 
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow && !isLaunched)
-        {
-            throwChargeBarGO.SetActive(true);
-            throwChargeBar.fillAmount = 0f;
-            isChargingThrow = true;
-            throwCharge = 0f;
-            isChargingUp = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
-        {
-            isChargingThrow = false;
-            ThrowFishBait();
-            throwChargeBarGO.SetActive(false);
-            throwCharge = 0f;
-        }
         if (isChargingThrow)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -100,23 +88,9 @@ public class PlayerController : MonoBehaviour
 
             throwChargeBar.fillAmount = throwCharge / 100f;
         }
-        if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
+        if (isWindingFishingRod)
         {
-            FishController[] allFish = FindObjectsOfType<FishController>();
-
-            foreach (FishController fish in allFish)
-            {
-                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
-                if (distanceToBait <= baitDetectionRadius)
-                {
-                    Destroy(fish.gameObject);
-                }
-            }
-
-            fishBait.transform.localPosition = Vector3.zero;
-            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            isLaunched = false;
+            OnWindingFishingRod();
         }
 
     }
@@ -179,6 +153,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && isLaunched)
         {
+            /*
             FishController[] allFish = FindObjectsOfType<FishController>();
 
             foreach (FishController fish in allFish)
@@ -194,11 +169,41 @@ public class PlayerController : MonoBehaviour
             fishBait.transform.localPosition = Vector3.zero;
             fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             isLaunched = false;
+            */
         }
     }
 
-    private void WindingFishingRod()
+    public void OnWindingFishingRod(InputAction.CallbackContext context)
     {
+        if (context.started && isLaunched)
+        {
+            isWindingFishingRod = true;
+            /*
+            FishController[] allFish = FindObjectsOfType<FishController>();
 
+            foreach (FishController fish in allFish)
+            {
+                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
+                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                if (distanceToBait <= baitDetectionRadius)
+                {
+                    Destroy(fish.gameObject);
+                }
+            }
+
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            isLaunched = false;
+            */
+        }
+        if (context.canceled && isLaunched)
+        {
+            isWindingFishingRod = false;
+        }
+    }
+
+    private void OnWindingFishingRod()
+    {
+        fishBait.GetComponent<Rigidbody2D>().velocity = (transform.position - fishBait.transform.position).normalized * Time.deltaTime * windingFishSpeed;
     }
 }
