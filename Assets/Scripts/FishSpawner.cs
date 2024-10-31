@@ -14,11 +14,7 @@ public class FishSpawner : MonoBehaviour
     {
         for (int i = 0; i < nbFishToGenerate; i++)
         {
-            GameObject fish = Instantiate(fishPrefab, transform);
-            fish.transform.localPosition = new Vector3(Random.Range(-8.0f, 8.0f), Random.Range(-4.0f,0.0f), 0);
-            float scale = Random.Range(minScale, maxScale);
-            fish.transform.localScale = new Vector3(scale, scale/3, 1);
-            fish.GetComponent<FishController>().setFishBait(GameObject.Find("FishBait"));
+            generateFish();
         }
     }
 
@@ -26,5 +22,15 @@ public class FishSpawner : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void generateFish()
+    {
+        GameObject fish = Instantiate(fishPrefab, transform);
+        fish.transform.localPosition = new Vector3(Random.Range(-8.0f, 8.0f), Random.Range(-4.0f, 0.0f), 0);
+        float scale = Random.Range(minScale, maxScale);
+        fish.transform.localScale = new Vector3(scale, scale / 3, 1);
+        fish.GetComponent<FishController>().setFishBait(GameObject.Find("FishBait"));
+        fish.GetComponent<FishController>().setPlayerController(GameObject.Find("Player").GetComponent<PlayerController>());
     }
 }

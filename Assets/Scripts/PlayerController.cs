@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,12 +18,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject throwChargeBarGO;
     [SerializeField] private Image throwChargeBar;
     [SerializeField] private float baitDetectionRadius = 1.0f;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private FishSpawner fishSpawner;
+    [SerializeField] private float timeBeforeSpawningANewFish = 5.0f;
+    [SerializeField] private ControlsUI controlsUI;
     [SerializeField] private float windingFishSpeed;
     [SerializeField] private float windingResistanceTime;
 
+    private int score = 0;
     private bool isChargingThrow = false;
     private bool isChargingUp = true;
     private bool isLaunched = false;
+    private bool isChargeCanceled = false;
     private bool isWindingFishingRod = false;
     private float throwCharge = 0f;
     private float windingResistanceTimer;
@@ -29,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         throwChargeBarGO.SetActive(false);
+        scoreText.text = string.Format("{0:000}", score);
     }
 
 
@@ -59,6 +68,22 @@ public class PlayerController : MonoBehaviour
 
             arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow && !isLaunched)
+        {
+            throwChargeBarGO.SetActive(true);
+            throwChargeBar.fillAmount = 0f;
+            isChargingThrow = true;
+            throwCharge = 0f;
+            isChargingUp = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
+        {
+            isChargingThrow = false;
+            ThrowFishBait();
+            throwChargeBarGO.SetActive(false);
+            throwCharge = 0f;
+        }
         if (isChargingThrow)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -88,9 +113,36 @@ public class PlayerController : MonoBehaviour
 
             throwChargeBar.fillAmount = throwCharge / 100f;
         }
-        if (isWindingFishingRod)
+        if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
         {
-            OnWindingFishingRod();
+            FishController[] allFish = FindObjectsOfType<FishController>();
+
+            foreach (FishController fish in allFish)
+            {
+                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
+                // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                if (distanceToBait <= baitDetectionRadius)
+                {
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        controlsUI.setDisabled(true);
+                        Destroy(fish.gameObject);
+                    }
+                    else
+                    {
+                        FishController.setIsFishAttracted(false);
+                        Destroy(fish.gameObject);
+                        score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                        scoreText.text = string.Format("{0:000}", score);
+
+                        StartCoroutine(RespawnFishAfterDelay());
+                    }
+                }
+            }
+
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            isLaunched = false;
         }
 
     }
@@ -127,10 +179,11 @@ public class PlayerController : MonoBehaviour
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
             isChargingThrow = true;
+            isChargeCanceled = false;
             throwCharge = 0f;
             isChargingUp = true;
         }
-        if (context.canceled && isChargingThrow && !isLaunched)
+        if (context.canceled && isChargingThrow && !isLaunched && !isChargeCanceled)
         {
             isChargingThrow = false;
             ThrowFishBait();
@@ -144,6 +197,7 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             isChargingThrow = false;
+            isChargeCanceled = true;
             throwChargeBarGO.SetActive(false);
             Debug.Log("Throw canceled");
         }
@@ -159,10 +213,23 @@ public class PlayerController : MonoBehaviour
             foreach (FishController fish in allFish)
             {
                 float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
-                    Destroy(fish.gameObject);
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        controlsUI.setDisabled(true);
+                        Destroy(fish.gameObject);
+                    }
+                    else
+                    {
+                        FishController.setIsFishAttracted(false);
+                        Destroy(fish.gameObject);
+                        score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                        scoreText.text = string.Format("{0:000}", score);
+
+                        StartCoroutine(RespawnFishAfterDelay());
+                    }
                 }
             }
 
@@ -171,6 +238,12 @@ public class PlayerController : MonoBehaviour
             isLaunched = false;
             */
         }
+    }
+
+    private IEnumerator RespawnFishAfterDelay()
+    {
+        yield return new WaitForSeconds(timeBeforeSpawningANewFish);
+        fishSpawner.generateFish();
     }
 
     public void OnWindingFishingRod(InputAction.CallbackContext context)
@@ -205,5 +278,10 @@ public class PlayerController : MonoBehaviour
     private void OnWindingFishingRod()
     {
         fishBait.GetComponent<Rigidbody2D>().velocity = (transform.position - fishBait.transform.position).normalized * Time.deltaTime * windingFishSpeed;
+    }
+
+    public float getBaitDetectionRadius()
+    {
+        return baitDetectionRadius;
     }
 }
