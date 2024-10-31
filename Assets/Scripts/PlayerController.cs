@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -20,11 +21,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private FishSpawner fishSpawner;
     [SerializeField] private float timeBeforeSpawningANewFish = 5.0f;
+    [SerializeField] private ControlsUI controlsUI;
 
     private int score = 0;
     private bool isChargingThrow = false;
     private bool isChargingUp = true;
     private bool isLaunched = false;
+    private bool isChargeCanceled = false;
     private float throwCharge = 0f;
 
     private void Start()
@@ -116,12 +119,20 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
-                    FishController.setIsFishAttracted(false);
-                    Destroy(fish.gameObject);
-                    score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
-                    scoreText.text = string.Format("{0:000}", score);
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        controlsUI.setDisabled(true);
+                        Destroy(fish.gameObject);
+                    }
+                    else
+                    {
+                        FishController.setIsFishAttracted(false);
+                        Destroy(fish.gameObject);
+                        score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                        scoreText.text = string.Format("{0:000}", score);
 
-                    StartCoroutine(RespawnFishAfterDelay());
+                        StartCoroutine(RespawnFishAfterDelay());
+                    }
                 }
             }
 
@@ -164,10 +175,11 @@ public class PlayerController : MonoBehaviour
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
             isChargingThrow = true;
+            isChargeCanceled = false;
             throwCharge = 0f;
             isChargingUp = true;
         }
-        if (context.canceled && isChargingThrow && !isLaunched)
+        if (context.canceled && isChargingThrow && !isLaunched && !isChargeCanceled)
         {
             isChargingThrow = false;
             ThrowFishBait();
@@ -181,6 +193,7 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             isChargingThrow = false;
+            isChargeCanceled = true;
             throwChargeBarGO.SetActive(false);
             Debug.Log("Throw canceled");
         }
@@ -198,12 +211,20 @@ public class PlayerController : MonoBehaviour
                 // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
-                    FishController.setIsFishAttracted(false);
-                    Destroy(fish.gameObject);
-                    score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
-                    scoreText.text = string.Format("{0:000}", score);
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        controlsUI.setDisabled(true);
+                        Destroy(fish.gameObject);
+                    }
+                    else
+                    {
+                        FishController.setIsFishAttracted(false);
+                        Destroy(fish.gameObject);
+                        score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                        scoreText.text = string.Format("{0:000}", score);
 
-                    StartCoroutine(RespawnFishAfterDelay());
+                        StartCoroutine(RespawnFishAfterDelay());
+                    }
                 }
             }
 
