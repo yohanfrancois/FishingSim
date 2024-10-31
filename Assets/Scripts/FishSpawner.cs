@@ -19,6 +19,7 @@ public class FishSpawner : MonoBehaviour
             float scale = Random.Range(minScale, maxScale);
             fish.transform.localScale = new Vector3(scale, scale/3, 1);
             fish.GetComponent<FishController>().setFishBait(GameObject.Find("FishBait"));
+            fish.GetComponent<FishController>().setPlayerController(GameObject.Find("Player").GetComponent<PlayerController>());
         }
     }
 

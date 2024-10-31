@@ -107,9 +107,10 @@ public class PlayerController : MonoBehaviour
             foreach (FishController fish in allFish)
             {
                 float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                //Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
+                    FishController.setIsFishAttracted(false);
                     Destroy(fish.gameObject);
                 }
             }
@@ -200,5 +201,10 @@ public class PlayerController : MonoBehaviour
     private void WindingFishingRod()
     {
 
+    }
+
+    public float getBaitDetectionRadius()
+    {
+        return baitDetectionRadius;
     }
 }
