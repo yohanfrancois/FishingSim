@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,7 +17,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject throwChargeBarGO;
     [SerializeField] private Image throwChargeBar;
     [SerializeField] private float baitDetectionRadius = 1.0f;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private FishSpawner fishSpawner;
+    [SerializeField] private float timeBeforeSpawningANewFish = 5.0f;
 
+    private int score = 0;
     private bool isChargingThrow = false;
     private bool isChargingUp = true;
     private bool isLaunched = false;
@@ -25,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         throwChargeBarGO.SetActive(false);
+        scoreText.text = string.Format("{0:000}", score);
     }
 
 
@@ -107,11 +113,15 @@ public class PlayerController : MonoBehaviour
             foreach (FishController fish in allFish)
             {
                 float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                //Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
                     FishController.setIsFishAttracted(false);
                     Destroy(fish.gameObject);
+                    score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                    scoreText.text = string.Format("{0:000}", score);
+
+                    StartCoroutine(RespawnFishAfterDelay());
                 }
             }
 
@@ -185,10 +195,15 @@ public class PlayerController : MonoBehaviour
             foreach (FishController fish in allFish)
             {
                 float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
                 if (distanceToBait <= baitDetectionRadius)
                 {
+                    FishController.setIsFishAttracted(false);
                     Destroy(fish.gameObject);
+                    score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                    scoreText.text = string.Format("{0:000}", score);
+
+                    StartCoroutine(RespawnFishAfterDelay());
                 }
             }
 
@@ -196,6 +211,12 @@ public class PlayerController : MonoBehaviour
             fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             isLaunched = false;
         }
+    }
+
+    private IEnumerator RespawnFishAfterDelay()
+    {
+        yield return new WaitForSeconds(timeBeforeSpawningANewFish);
+        fishSpawner.generateFish();
     }
 
     private void WindingFishingRod()
