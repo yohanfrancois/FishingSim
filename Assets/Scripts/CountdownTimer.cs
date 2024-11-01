@@ -5,12 +5,18 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CountdownTimer : MonoBehaviour
 {
-    [SerializeField] private float timeRemaining = 120f;
+    [SerializeField] private float timerDuration = 120f;
     [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private GameObject endGamePanel;
+    [SerializeField] private GameObject inGamePanel;
+    private float timeRemaining;
     bool timerIsRunning = false;
     // Start is called before the first frame update
     void Start()
     {
+        timeRemaining = timerDuration;
+        endGamePanel.SetActive(false);
+        inGamePanel.SetActive(true);
         UpdateTimerDisplay();
         StartCountdown();
     }
@@ -23,10 +29,9 @@ public class CountdownTimer : MonoBehaviour
             timeRemaining -= Time.deltaTime;
             UpdateTimerDisplay();
         }
-        else if (timeRemaining <= 0)
+        else if (timeRemaining <= 0 && timerIsRunning)
         {
-            timerIsRunning = false;
-            countdownText.text = "00:00";
+            EndGame();
         }
     }
 
@@ -39,5 +44,28 @@ public class CountdownTimer : MonoBehaviour
         int minutes = Mathf.FloorToInt(timeRemaining / 60);
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
         countdownText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void EndGame()
+    {
+        timerIsRunning = false;
+        timeRemaining = 0;
+        countdownText.text = "00:00";
+        endGamePanel.SetActive(true);
+        inGamePanel.SetActive(false);
+    }
+
+    public void ResetTimer()
+    {
+        timeRemaining = timerDuration;
+        timerIsRunning = false;
+        UpdateTimerDisplay();
+        endGamePanel.SetActive(false);
+        inGamePanel.SetActive(true);
+    }
+
+    public float getTimeRemaining()
+    {
+        return timeRemaining;
     }
 }
