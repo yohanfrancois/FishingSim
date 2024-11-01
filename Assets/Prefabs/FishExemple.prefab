@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1773919952423215464}
   - component: {fileID: 3477744076074399114}
   - component: {fileID: 7780437695476118506}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: FishExemple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +235,8 @@ MonoBehaviour:
   fishBait: {fileID: 0}
   boxCollider: {fileID: 1773919952423215464}
   playerController: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  attractedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!50 &7780437695476118506
 Rigidbody2D:
   serializedVersion: 4

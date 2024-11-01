@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private FishSpawner fishSpawner;
     [SerializeField] private float timeBeforeSpawningANewFish = 5.0f;
     [SerializeField] private ControlsUI controlsUI;
+    [SerializeField] private CountdownTimer countdownTimer;
+    [SerializeField] private TextMeshProUGUI endGameScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+    [SerializeField] private HighScoreManager highScoreManager;
 
     private int score = 0;
     private bool isChargingThrow = false;
@@ -40,105 +44,115 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float currentZRotation = arrowDir.localEulerAngles.z;
-        if (currentZRotation > 180f)
-            currentZRotation -= 360f;
-
-        if (Input.GetKey(KeyCode.A) && !isChargingThrow && !isLaunched)
+        if (countdownTimer.getTimeRemaining() > 0 || SceneManager.GetActiveScene().name == "Tutorial")
         {
-            // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
-            float newZRotation = currentZRotation - arrowRotateSpeed * Time.deltaTime;
+            float currentZRotation = arrowDir.localEulerAngles.z;
+            if (currentZRotation > 180f)
+                currentZRotation -= 360f;
 
-            if (newZRotation < aimAngleMin)
-                newZRotation = aimAngleMin;
+            if (Input.GetKey(KeyCode.A) && !isChargingThrow && !isLaunched)
+            {
+                // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
+                float newZRotation = currentZRotation - arrowRotateSpeed * Time.deltaTime;
 
-            arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
-        }
-        if (Input.GetKey(KeyCode.D) && !isChargingThrow && !isLaunched)
-        {
-            // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
-            float newZRotation = currentZRotation + arrowRotateSpeed * Time.deltaTime;
+                if (newZRotation < aimAngleMin)
+                    newZRotation = aimAngleMin;
 
-            if (newZRotation > aimAngleMax)
-                newZRotation = aimAngleMax;
+                arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
+            }
+            if (Input.GetKey(KeyCode.D) && !isChargingThrow && !isLaunched)
+            {
+                // Calculez la nouvelle rotation en ajoutant l'entrée utilisateur
+                float newZRotation = currentZRotation + arrowRotateSpeed * Time.deltaTime;
 
-            arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
-        }
+                if (newZRotation > aimAngleMax)
+                    newZRotation = aimAngleMax;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow && !isLaunched)
-        {
-            throwChargeBarGO.SetActive(true);
-            throwChargeBar.fillAmount = 0f;
-            isChargingThrow = true;
-            throwCharge = 0f;
-            isChargingUp = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
-        {
-            isChargingThrow = false;
-            ThrowFishBait();
-            throwChargeBarGO.SetActive(false);
-            throwCharge = 0f;
-        }
-        if (isChargingThrow)
-        {
-            if (Input.GetKeyDown(KeyCode.R))
+                arrowDir.rotation = Quaternion.Euler(0f, 180f, newZRotation);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && !isChargingThrow && !isLaunched)
+            {
+                throwChargeBarGO.SetActive(true);
+                throwChargeBar.fillAmount = 0f;
+                isChargingThrow = true;
+                throwCharge = 0f;
+                isChargingUp = true;
+            }
+            if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
             {
                 isChargingThrow = false;
+                ThrowFishBait();
                 throwChargeBarGO.SetActive(false);
-                return;
+                throwCharge = 0f;
             }
-            if (isChargingUp)
+            if (isChargingThrow)
             {
-                throwCharge += throwChargeSpeed * Time.deltaTime;
-                if (throwCharge > 100f)
+                if (Input.GetKeyDown(KeyCode.R))
                 {
-                    throwCharge = 100f;
-                    isChargingUp = false;
+                    isChargingThrow = false;
+                    throwChargeBarGO.SetActive(false);
+                    return;
                 }
-            }
-            else
-            {
-                throwCharge -= throwChargeSpeed * Time.deltaTime;
-                if (throwCharge < 0f)
+                if (isChargingUp)
                 {
-                    throwCharge = 0f;
-                    isChargingUp = true;
+                    throwCharge += throwChargeSpeed * Time.deltaTime;
+                    if (throwCharge > 100f)
+                    {
+                        throwCharge = 100f;
+                        isChargingUp = false;
+                    }
                 }
-            }
+                else
+                {
+                    throwCharge -= throwChargeSpeed * Time.deltaTime;
+                    if (throwCharge < 0f)
+                    {
+                        throwCharge = 0f;
+                        isChargingUp = true;
+                    }
+                }
 
-            throwChargeBar.fillAmount = throwCharge / 100f;
+                throwChargeBar.fillAmount = throwCharge / 100f;
+            }
+            if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
+            {
+                FishController[] allFish = FindObjectsOfType<FishController>();
+
+                foreach (FishController fish in allFish)
+                {
+                    float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
+                    // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
+                    if (distanceToBait <= baitDetectionRadius)
+                    {
+                        if (SceneManager.GetActiveScene().name == "Tutorial")
+                        {
+                            controlsUI.setDisabled(true);
+                            Destroy(fish.gameObject);
+                        }
+                        else
+                        {
+                            FishController.setIsFishAttracted(false);
+                            Destroy(fish.gameObject);
+                            score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                            scoreText.text = string.Format("{0:000}", score);
+
+                            StartCoroutine(RespawnFishAfterDelay());
+                        }
+                    }
+                }
+
+                fishBait.transform.localPosition = Vector3.zero;
+                fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                isLaunched = false;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
+        else
         {
-            FishController[] allFish = FindObjectsOfType<FishController>();
-
-            foreach (FishController fish in allFish)
-            {
-                float distanceToBait = Vector3.Distance(fish.transform.position, fishBait.transform.position);
-                // Debug.Log(fish.transform.position + ", " + fishBait.transform.position + ", " + distanceToBait);
-                if (distanceToBait <= baitDetectionRadius)
-                {
-                    if (SceneManager.GetActiveScene().name == "Tutorial")
-                    {
-                        controlsUI.setDisabled(true);
-                        Destroy(fish.gameObject);
-                    }
-                    else
-                    {
-                        FishController.setIsFishAttracted(false);
-                        Destroy(fish.gameObject);
-                        score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
-                        scoreText.text = string.Format("{0:000}", score);
-
-                        StartCoroutine(RespawnFishAfterDelay());
-                    }
-                }
-            }
-
-            fishBait.transform.localPosition = Vector3.zero;
-            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            isLaunched = false;
+            endGameScoreText.text = string.Format("{0:000}", score);
+            highScoreManager.SaveHighScore(score);
+            highScoreText.text = string.Format("{0:000}", highScoreManager.GetHighScore());
+            fishBait.GetComponent<LineRenderer>().gameObject.SetActive(false);
         }
 
     }
@@ -249,4 +263,5 @@ public class PlayerController : MonoBehaviour
     {
         return baitDetectionRadius;
     }
+
 }
