@@ -1,21 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
 {
+    [Header("Speeds")]
     [SerializeField] private float normalSpeed = 5.0f;
     [SerializeField] private float targetedSpeed = 7.0f;
-    [SerializeField] private GameObject fishBait;
-    [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private PlayerController playerController;
+
+    [Header("Colors")]
     [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color attractedColor = Color.red; 
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Color attractedColor = Color.red;
+
+    [Header("Others")]
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private FishSensor fishSensor = null;
+
+    
     private Vector3 direction;
     private float speed;
     private bool isChasingBait = false;
     private static bool isFishAttracted = false;
+    private PlayerController playerController;
+    private BoxCollider2D boxCollider;
+    private GameObject fishBait;
     private float baitDetectionRadius;
 
     private void Start()
@@ -32,14 +38,9 @@ public class FishController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         speed = normalSpeed;
-        
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!spriteRenderer)
+            Debug.Log("What?");
         spriteRenderer.color = normalColor;
-
-
-        if (boxCollider == null)
-            boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.isTrigger = true;
 
         baitDetectionRadius = playerController.getBaitDetectionRadius();
     }
@@ -98,7 +99,7 @@ public class FishController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("FishBait") && Vector3.Distance(transform.position, other.transform.position) > playerController.getBaitDetectionRadius())
+        if (other.CompareTag("FishBait") /*&& Vector3.Distance(transform.position, other.transform.position) > playerController.getBaitDetectionRadius()*/)
         {
             isFishAttracted = false; // Indique qu'aucun poisson n'est attiré
             speed = normalSpeed; // Réinitialiser la vitesse
@@ -123,5 +124,13 @@ public class FishController : MonoBehaviour
     public static void setIsFishAttracted(bool isFishAttractedOther)
     {
         isFishAttracted = isFishAttractedOther;
+    }
+
+    public void DetectFishBait(FishBait bait)
+    {
+        isFishAttracted = true; // Indique qu'un poisson est attiré
+        fishBait = bait.gameObject; // Référence à l'appât
+        speed = targetedSpeed; // Augmenter la vitesse
+        isChasingBait = true; // Commencer à suivre l'appât
     }
 }

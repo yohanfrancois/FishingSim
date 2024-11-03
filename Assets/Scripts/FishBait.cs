@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class FishBait : MonoBehaviour
 {
+    [SerializeField] private float waterSpeed = 0.5f;
+
+
     private LineRenderer lr;
-    [SerializeField] private BoxCollider2D boxCollider;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
+    private bool isInWater = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +33,7 @@ public class FishBait : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             rb.gravityScale = 0f;
-            rb.velocity = new Vector2(0, -0.5f);
+            rb.velocity = new Vector2(0, -waterSpeed);
         }
     }
 

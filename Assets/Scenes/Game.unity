@@ -1786,7 +1786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45fa4471aa0909541aa5ddbc43fcd865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider: {fileID: 437141173}
+  waterSpeed: 1
 --- !u!1 &789638999
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,12 +3197,14 @@ MonoBehaviour:
   throwChargeBar: {fileID: 88492754}
   baitDetectionRadius: 0.5
   scoreText: {fileID: 1814731011}
+  endGameScoreText: {fileID: 268188719}
+  highScoreText: {fileID: 984030244}
   fishSpawner: {fileID: 1739167348}
   timeBeforeSpawningANewFish: 5
   controlsUI: {fileID: 0}
+  windingFishSpeed: 0
+  windingResistanceTime: 0
   countdownTimer: {fileID: 1917961006}
-  endGameScoreText: {fileID: 268188719}
-  highScoreText: {fileID: 984030244}
   highScoreManager: {fileID: 1917961007}
 --- !u!114 &1667746558
 MonoBehaviour:
@@ -3293,6 +3295,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b23b40b4-7efe-41ae-b282-5c97facdcae6
     m_ActionName: controls/callFishBait[/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be733491-23e4-4b08-b949-a426e1b054b8
+    m_ActionName: controls/windingFishingRod[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: controls
@@ -3363,6 +3369,8 @@ MonoBehaviour:
   nbFishToGenerate: 5
   minScale: 0.5
   maxScale: 1.5
+  fishBait: {fileID: 638751331}
+  player: {fileID: 1667746557}
 --- !u!4 &1739167349
 Transform:
   m_ObjectHideFlags: 0
@@ -3761,7 +3769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcde3c8b89601842954438ca3df4d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDuration: 15
+  timerDuration: 120
   countdownText: {fileID: 2137522172}
   endGamePanel: {fileID: 28783405}
   inGamePanel: {fileID: 945869213}
@@ -4229,76 +4237,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137522170}
   m_CullTransparentMesh: 1
---- !u!1001 &4721982161129648589
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.519
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 633591881218253816, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3477744076074399114, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: fishBait
-      value: 
-      objectReference: {fileID: 638751325}
-    - target: {fileID: 3477744076074399114, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: playerController
-      value: 
-      objectReference: {fileID: 1667746557}
-    - target: {fileID: 5643029166413543034, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6783394660526882458, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-      propertyPath: m_Name
-      value: FishExemple
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 9137093148459957760, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2664031710264e94ea02a0b8e9b1bb98, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4307,7 +4245,6 @@ SceneRoots:
   - {fileID: 1667746555}
   - {fileID: 834378916}
   - {fileID: 437141172}
-  - {fileID: 4721982161129648589}
   - {fileID: 19842706}
   - {fileID: 1756204392}
   - {fileID: 1370488786}

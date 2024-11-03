@@ -8,6 +8,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Fishing Rod")]
     [SerializeField] private Transform arrowDir;
     [SerializeField] private float arrowRotateSpeed;
     [SerializeField] private float aimAngleMin;
@@ -18,15 +19,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject throwChargeBarGO;
     [SerializeField] private Image throwChargeBar;
     [SerializeField] private float baitDetectionRadius = 1.0f;
+
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI endGameScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+
+    [Header("Fish")]
     [SerializeField] private FishSpawner fishSpawner;
     [SerializeField] private float timeBeforeSpawningANewFish = 5.0f;
+
+    [Header("Others")]
     [SerializeField] private ControlsUI controlsUI;
     [SerializeField] private float windingFishSpeed;
     [SerializeField] private float windingResistanceTime;
     [SerializeField] private CountdownTimer countdownTimer;
-    [SerializeField] private TextMeshProUGUI endGameScoreText;
-    [SerializeField] private TextMeshProUGUI highScoreText;
     [SerializeField] private HighScoreManager highScoreManager;
 
     private int score = 0;
@@ -41,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         throwChargeBarGO.SetActive(false);
+        fishBait.SetActive(false);
         scoreText.text = string.Format("{0:000}", score);
     }
 
@@ -85,6 +93,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.Space) && isChargingThrow)
             {
+                fishBait.SetActive(true);
                 isChargingThrow = false;
                 ThrowFishBait();
                 throwChargeBarGO.SetActive(false);
@@ -148,6 +157,7 @@ public class PlayerController : MonoBehaviour
 
                 fishBait.transform.localPosition = Vector3.zero;
                 fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                fishBait.SetActive(false);
                 isLaunched = false;
             }
         }
@@ -190,6 +200,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && !isChargingThrow && !isLaunched)
         {
+            fishBait.SetActive(false);
             throwChargeBarGO.SetActive(true);
             throwChargeBar.fillAmount = 0f;
             isChargingThrow = true;
@@ -199,6 +210,7 @@ public class PlayerController : MonoBehaviour
         }
         if (context.canceled && isChargingThrow && !isLaunched && !isChargeCanceled)
         {
+            fishBait.SetActive(true);
             isChargingThrow = false;
             ThrowFishBait();
             throwChargeBarGO.SetActive(false);
