@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FishBait : MonoBehaviour
 {
     [SerializeField] private float waterSpeed = 0.5f;
 
-
     private LineRenderer lr;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
-    private bool isInWater = false;
 
-    // Start is called before the first frame update
+	private FishController fish = null;
+	public bool hasTouchedWater = false;
+	// Getter/Setter
+	public bool HasFish => fish != null;
+	public float WaterSpeed => waterSpeed;
+	
+	// Start is called before the first frame update
     void Start()
     {
         lr = GetComponent<LineRenderer>();
@@ -30,11 +32,23 @@ public class FishBait : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Water"))
-        {
-            rb.gravityScale = 0f;
-            rb.velocity = new Vector2(0, -waterSpeed);
-        }
+		if (other.CompareTag("Water"))
+		{
+			hasTouchedWater = true;
+			rb.gravityScale = 0f;
+			rb.velocity = new Vector2(0, -waterSpeed);
+		}
+		else if (other.CompareTag("Fish"))
+		{
+			FishController tempFish = other.GetComponent<FishController>();
+			if (tempFish && tempFish.IsChasingBait)
+			{
+				fish = tempFish;
+				fish.Catched();
+				rb.velocity = Vector2.zero;
+			}
+			
+		}
     }
 
     private void OnTriggerExit2D(Collider2D collision)

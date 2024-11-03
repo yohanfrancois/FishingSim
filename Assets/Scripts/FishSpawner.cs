@@ -31,7 +31,8 @@ public class FishSpawner : MonoBehaviour
         GameObject fish = Instantiate(fishPrefab, transform);
         fish.transform.localPosition = new Vector3(Random.Range(-8.0f, 8.0f), Random.Range(-4.0f, 0.0f), 0);
         float scale = Random.Range(minScale, maxScale);
-        //fish.transform.localScale = new Vector3(scale, scale / 3, 1);
+		Vector3 tempScale = fish.transform.localScale;
+		fish.transform.localScale = new Vector3(tempScale.x * scale, tempScale.y * scale, 1);
         fish.GetComponent<FishController>().setFishBait(fishBait.gameObject);
         fish.GetComponent<FishController>().setPlayerController(player);
     }

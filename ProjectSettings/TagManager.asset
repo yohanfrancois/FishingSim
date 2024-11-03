@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FishBait
   - Water
+  - Fish
   layers:
   - Default
   - TransparentFX
