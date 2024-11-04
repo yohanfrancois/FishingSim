@@ -7,12 +7,14 @@ public class FishBait : MonoBehaviour
     private LineRenderer lr;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
+    private bool isBeingPulled = false;
 
 	private FishController fish = null;
 	public bool hasTouchedWater = false;
 	// Getter/Setter
 	public bool HasFish => fish != null;
 	public float WaterSpeed => waterSpeed;
+    public bool IsBeingPulled => isBeingPulled;
 	
 	// Start is called before the first frame update
     void Start()
@@ -49,6 +51,11 @@ public class FishBait : MonoBehaviour
 			}
 			
 		}
+    }
+
+    public void SetIsBeingPulled(bool isBeingPulled)
+    {
+        this.isBeingPulled = isBeingPulled;
     }
 
     private void OnTriggerExit2D(Collider2D collision)

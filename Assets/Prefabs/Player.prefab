@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowDir: {fileID: 7086230278119939643}
-  arrowRotateSpeed: 150
+  arrowRotateSpeed: 200
   aimAngleMin: -90
   aimAngleMax: 90
   fishBait: {fileID: 7835260949051674903}
@@ -77,7 +77,7 @@ MonoBehaviour:
   highScoreText: {fileID: 0}
   fishSpawner: {fileID: 0}
   timeBeforeSpawningANewFish: 5
-  windingFishSpeed: 10
+  windingFishSpeed: 3.5
   windingResistanceTime: 5
   controlsUI: {fileID: 0}
   countdownTimer: {fileID: 0}
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 3190844642486148276}
   - component: {fileID: 3280691242127049192}
   - component: {fileID: 7300522760382932775}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FishBait
   m_TagString: FishBait
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -530,7 +530,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -703,4 +703,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45fa4471aa0909541aa5ddbc43fcd865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterSpeed: 0.5
+  waterSpeed: 1
+  hasTouchedWater: 0

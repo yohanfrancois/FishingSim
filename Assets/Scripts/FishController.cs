@@ -68,6 +68,11 @@ public class FishController : MonoBehaviour
             }
 			transform.position += direction * speed * Time.deltaTime;
         }
+        // if is catched
+        else if (fishBait.GetComponent<FishBait>().IsBeingPulled == false)
+        {
+            fishBait.GetComponent<Rigidbody2D>().velocity = direction * speed / 4f;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -114,6 +119,8 @@ public class FishController : MonoBehaviour
 		isChasingBait = false;
 		spriteRenderer.color = attractedColor;
 		transform.SetParent(fishBait.transform);
-		transform.localPosition = Vector3.zero;	
+		transform.localPosition = Vector3.zero;
+        direction = transform.position - playerController.transform.position;
+        transform.right = direction;
 	}
 }

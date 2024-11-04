@@ -278,14 +278,14 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && isLaunched)
         {
-			Debug.Log("Hello.");
             isWindingFishingRod = true;
+            fishBait.GetComponent<FishBait>().SetIsBeingPulled(true);
 			fishBait.GetComponent<Rigidbody2D>().velocity = (transform.position - fishBait.transform.position).normalized * windingFishSpeed;
 		}
         if (context.canceled && isLaunched)
         {
-			Debug.Log("Good bye.");
-			fishBait.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -fishBait.GetComponent<FishBait>().WaterSpeed);
+            fishBait.GetComponent<FishBait>().SetIsBeingPulled(false);
+            fishBait.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -fishBait.GetComponent<FishBait>().WaterSpeed);
 			isWindingFishingRod = false;
         }
     }
@@ -302,7 +302,7 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("FishBait"))
+		/*if (collision.CompareTag("FishBait"))
 		{
 			FishBait bait = collision.GetComponent<FishBait>();
 			if (bait && !bait.HasFish && bait.hasTouchedWater)
@@ -313,8 +313,8 @@ public class PlayerController : MonoBehaviour
 				fishBait.SetActive(false);
 				isLaunched = false;
 			}
-		}
-		else if (collision.CompareTag("Fish"))
+		}*/
+		if (collision.CompareTag("Fish"))
 		{
 			GameObject fish = collision.gameObject;
 			if (SceneManager.GetActiveScene().name == "Tutorial")
