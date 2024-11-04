@@ -71,7 +71,7 @@ public class FishController : MonoBehaviour
         // if is catched
         else if (fishBait.GetComponent<FishBait>().IsBeingPulled == false)
         {
-            fishBait.GetComponent<Rigidbody2D>().velocity = direction * speed / 4f;
+            fishBait.GetComponent<Rigidbody2D>().velocity = direction * speed / 3f;
         }
     }
 

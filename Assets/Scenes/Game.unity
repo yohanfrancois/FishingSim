@@ -2821,6 +2821,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7300522760382932775, guid: 26a9e66089db82e4a8cf4704253061cb, type: 3}
+      propertyPath: waterSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9182130981807934300, guid: 26a9e66089db82e4a8cf4704253061cb, type: 3}
       propertyPath: m_Radius
       value: 1.25
@@ -3274,7 +3278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcde3c8b89601842954438ca3df4d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDuration: 10
+  timerDuration: 60
   countdownText: {fileID: 2137522172}
   endGamePanel: {fileID: 28783405}
   inGamePanel: {fileID: 945869213}

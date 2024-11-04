@@ -43,7 +43,7 @@ public class FishBait : MonoBehaviour
 		else if (other.CompareTag("Fish"))
 		{
 			FishController tempFish = other.GetComponent<FishController>();
-			if (tempFish && tempFish.IsChasingBait)
+			if (tempFish && tempFish.IsChasingBait && !fish)
 			{
 				fish = tempFish;
 				fish.Catched();
