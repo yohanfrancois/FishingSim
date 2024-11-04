@@ -310,7 +310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'LT : Call Fish Bait'
+  m_text: 'RT (hold) : Call Fish Bait'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
   m_sharedMaterial: {fileID: 6543485310887529629, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
@@ -803,7 +803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 188, y: 319}
+  m_AnchoredPosition: {x: -334, y: 280}
   m_SizeDelta: {x: 40, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &285912871
@@ -1653,7 +1653,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.7226145, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.61960787, b: 0.8784314, a: 0.6509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3425,7 +3425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'A : Call Fish Bait'
+  m_text: 'Space (hold) : Call Fish Bait'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
   m_sharedMaterial: {fileID: 6543485310887529629, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
