@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Q) && isLaunched)
             {
-                FishController[] allFish = FindObjectsOfType<FishController>();
+                /*FishController[] allFish = FindObjectsOfType<FishController>();
 
                 foreach (FishController fish in allFish)
                 {
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
                 fishBait.transform.localPosition = Vector3.zero;
                 fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 fishBait.SetActive(false);
-                isLaunched = false;
+                isLaunched = false;*/
             }
         }
         else
