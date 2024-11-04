@@ -56,7 +56,7 @@ FishingSim is playable with both keyboard/mouse and a controller. Here are the k
   - **Controller**: Hold RT  
   Use this to reel in the line and try to catch a fish once the line is in the water.
 
-![Controls Image](ocntrols.png)
+![Controls Image](controls.png)
 
 ## Game Rules
 The player must catch as many fish as possible within one minute. Once the time runs out, an endgame screen shows the final score, the highest score achieved, and options to replay, go back to the main menu, or quit.
