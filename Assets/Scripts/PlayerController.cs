@@ -301,8 +301,31 @@ public class PlayerController : MonoBehaviour
     }
 
 	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		/*if (collision.CompareTag("FishBait"))
+    {
+        if (collision.CompareTag("Fish"))
+        {
+            GameObject fish = collision.gameObject;
+            if (SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                controlsUI.setDisabled(true);
+                Destroy(fish.gameObject);
+            }
+            else
+            {
+                FishController.setIsFishAttracted(false);
+                Destroy(fish.gameObject);
+                score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
+                scoreText.text = string.Format("{0:000}", score);
+
+                StartCoroutine(RespawnFishAfterDelay());
+            }
+            fishBait.GetComponent<FishBait>().hasTouchedWater = false;
+            fishBait.transform.localPosition = Vector3.zero;
+            fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            fishBait.SetActive(false);
+            isLaunched = false;
+        }
+        else if (collision.CompareTag("FishBait"))
 		{
 			FishBait bait = collision.GetComponent<FishBait>();
 			if (bait && !bait.HasFish && bait.hasTouchedWater)
@@ -313,29 +336,6 @@ public class PlayerController : MonoBehaviour
 				fishBait.SetActive(false);
 				isLaunched = false;
 			}
-		}*/
-		if (collision.CompareTag("Fish"))
-		{
-			GameObject fish = collision.gameObject;
-			if (SceneManager.GetActiveScene().name == "Tutorial")
-			{
-				controlsUI.setDisabled(true);
-				Destroy(fish.gameObject);
-			}
-			else
-			{
-				FishController.setIsFishAttracted(false);
-				Destroy(fish.gameObject);
-				score += Mathf.FloorToInt(50 * fish.transform.localScale.x);
-				scoreText.text = string.Format("{0:000}", score);
-
-				StartCoroutine(RespawnFishAfterDelay());
-			}
-			fishBait.GetComponent<FishBait>().hasTouchedWater = false;
-			fishBait.transform.localPosition = Vector3.zero;
-			fishBait.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-			fishBait.SetActive(false);
-			isLaunched = false;
 		}
 	}
 

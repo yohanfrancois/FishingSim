@@ -2825,10 +2825,6 @@ PrefabInstance:
       propertyPath: waterSpeed
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 9182130981807934300, guid: 26a9e66089db82e4a8cf4704253061cb, type: 3}
-      propertyPath: m_Radius
-      value: 1.25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
