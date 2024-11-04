@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ControlsUI controlsUI;
     [SerializeField] private CountdownTimer countdownTimer;
     [SerializeField] private HighScoreManager highScoreManager;
+    [SerializeField] private GameObject menuPause;
 
     private int score = 0;
     private bool isChargingThrow = false;
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         throwChargeBarGO.SetActive(false);
         fishBait.SetActive(false);
         scoreText.text = string.Format("{0:000}", score);
+        menuPause.SetActive(false);
     }
 
 
@@ -339,4 +341,10 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+    public void OnMenuPauseButton(InputAction.CallbackContext context)
+    {
+        Debug.Log("OnMenuPauseButton");
+        Time.timeScale = menuPause.activeSelf ? 0f : 1f;
+        menuPause.SetActive(menuPause.activeSelf ? false : true);
+    }
 }

@@ -82,6 +82,7 @@ MonoBehaviour:
   controlsUI: {fileID: 0}
   countdownTimer: {fileID: 0}
   highScoreManager: {fileID: 0}
+  menuPause: {fileID: 0}
 --- !u!114 &2618218450656024677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +188,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: be733491-23e4-4b08-b949-a426e1b054b8
     m_ActionName: controls/windingFishingRod[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 790089974479452243}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMenuPauseButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ff8aca8-6134-4535-b245-651c0a86093e
+    m_ActionName: controls/openPauseMenu[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: controls
