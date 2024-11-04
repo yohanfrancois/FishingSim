@@ -23,12 +23,6 @@ FishingSim presents a simple yet engaging challenge: catch fish within a limited
 - **Platform**: Windows
 
 ## Controls
-The game can be played using the keyboard, mouse, or a controller. Key controls include:
-
-- **Cast the line**: Click with the mouse or use the dedicated button on the controller.
-- **Move the line**: Use arrow keys or the controller joystick.
-
-## Controls
 FishingSim is playable with both keyboard/mouse and a controller. Here are the key actions:
 
 - **Aim the Cast**  
