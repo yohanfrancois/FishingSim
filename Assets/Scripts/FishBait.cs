@@ -22,7 +22,7 @@ public class FishBait : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         if (boxCollider == null)
             boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.isTrigger = true;
+        //boxCollider.isTrigger = true;
         rb = GetComponent<Rigidbody2D>();
     }
 
