@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
     public void OnMenuPauseButton(InputAction.CallbackContext context)
     {
         Debug.Log("OnMenuPauseButton");
-        Time.timeScale = menuPause.activeSelf ? 0f : 1f;
         menuPause.SetActive(menuPause.activeSelf ? false : true);
+        Time.timeScale = menuPause.activeSelf ? 0f : 1f;
     }
 }

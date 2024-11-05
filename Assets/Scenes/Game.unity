@@ -1190,8 +1190,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: 309}
-  m_SizeDelta: {x: 313.9629, y: 145.4721}
+  m_AnchoredPosition: {x: 0, y: 200}
+  m_SizeDelta: {x: 409, y: 145.4721}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &387061586
 MonoBehaviour:
@@ -1608,7 +1608,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RESTART
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
   m_sharedMaterial: {fileID: 6543485310887529629, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
@@ -1834,7 +1834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MAIN MENU
+  m_text: Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
   m_sharedMaterial: {fileID: 6543485310887529629, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
@@ -1958,8 +1958,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: -23}
-  m_SizeDelta: {x: 313.9629, y: 145.4721}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 409, y: 145.4721}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &612097356
 MonoBehaviour:
@@ -1977,7 +1977,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 387061586}
-    m_SelectOnDown: {fileID: 612097356}
+    m_SelectOnDown: {fileID: 1226670710}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -2749,8 +2749,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: -337}
-  m_SizeDelta: {x: 408.54, y: 145.4721}
+  m_AnchoredPosition: {x: 0, y: -200}
+  m_SizeDelta: {x: 409, y: 145.4721}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1226670710
 MonoBehaviour:
@@ -3375,7 +3375,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RESUME
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
   m_sharedMaterial: {fileID: 6543485310887529629, guid: 3add5e34875570f41b0bc1c26fdba022, type: 2}
@@ -4238,6 +4238,7 @@ MonoBehaviour:
   resumeButton: {fileID: 387061586}
   restartSceneButton: {fileID: 612097356}
   mainMenuButton: {fileID: 1226670710}
+  endGameSelected: {fileID: 1314630230}
 --- !u!1 &1984284239
 GameObject:
   m_ObjectHideFlags: 0
